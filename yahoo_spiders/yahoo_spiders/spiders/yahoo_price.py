@@ -3,6 +3,7 @@ import scrapy
 import logging
 import os
 import pathlib
+import datetime
 
 
 class YahooPriceSpider(scrapy.Spider):
@@ -17,21 +18,21 @@ class YahooPriceSpider(scrapy.Spider):
     symbols = snp_ticker_df.Symbol.head(10)
     # symbols = ['MMM', 'ABT']
 
-    d1 = datetime.strptime('20200101', "%Y%m%d")
-    d2 = datetime.strptime('20200401', "%Y%m%d")
+    # d1 = datetime.strptime('20200101', "%Y%m%d")
+    # d2 = datetime.strptime('20200401', "%Y%m%d")
 
-    time_str1 = str(int(datetime.timestamp(d1)))
-    time_str2 = str(int(datetime.timestamp(d2)))
+    # time_str1 = str(int(datetime.timestamp(d1)))
+    # time_str2 = str(int(datetime.timestamp(d2)))
 
-    # start_url is scrapy naming convention, dont change (dont need to implement start_requests with this)
-    start_urls = ['https://finance.yahoo.com/quote/'+ ticker +'/history?period1='+time_str1+'&period2='+time_str2+'&interval=1d&filter=history&frequency=1d'
-                      for ticker in symbols]
+    # # start_url is scrapy naming convention, dont change (dont need to implement start_requests with this)
+    # start_urls = ['https://finance.yahoo.com/quote/'+ ticker +'/history?period1='+time_str1+'&period2='+time_str2+'&interval=1d&filter=history&frequency=1d'
+    #                   for ticker in symbols]
     
-    custom_settings = {
-        'LOG_LEVEL': logging.WARNING, # Scrapy logs alot of stuff at a lower setting
-        'FEEDS': {pathlib.Path('data_out/yahoo_price.csv'): {'format': 'csv'}}, # When writing to this file, the additional scrapes will be appended not overwritten
-        'FEED_EXPORT_ENCODING': 'utf-8-sig' # not utf-8 so as to force csv to open in utf-8, if not will have wierd characters
-    }
+    # custom_settings = {
+    #     'LOG_LEVEL': logging.WARNING, # Scrapy logs alot of stuff at a lower setting
+    #     'FEEDS': {pathlib.Path('data_out/yahoo_price.csv'): {'format': 'csv'}}, # When writing to this file, the additional scrapes will be appended not overwritten
+    #     'FEED_EXPORT_ENCODING': 'utf-8-sig' # not utf-8 so as to force csv to open in utf-8, if not will have wierd characters
+    # }
 
     @staticmethod
     def get_ticker_from_url(url):

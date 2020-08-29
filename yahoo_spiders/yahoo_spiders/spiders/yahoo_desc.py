@@ -9,7 +9,8 @@ class YahooDescSpider(scrapy.Spider):
     '''
     Script to scrape company description
     Note that scrapes are done in parallel so order is not guaranteed
-    Scrapy is a single-threaded framework (and does not support multithreading), but is asynchronous (parallel requests = multiprocessing)
+    Scrapy is a single-threaded framework (and does not support multithreading),
+    but is asynchronous (parallel requests = multiprocessing)
     '''
     name = "yahoo_desc"
 
@@ -17,7 +18,8 @@ class YahooDescSpider(scrapy.Spider):
     symbols = snp_ticker_df.Symbol.head(10)
     # symbols = ['MMM', 'ABT']
 
-    # start_url is scrapy naming convention, dont change (dont need to implement start_requests with this)
+    # start_url is scrapy naming convention, dont change
+    # (dont need to implement start_requests with this)
     start_urls = ['https://finance.yahoo.com/quote/'+ticker+'/profile?p='+ticker
                       for ticker in symbols]
     
