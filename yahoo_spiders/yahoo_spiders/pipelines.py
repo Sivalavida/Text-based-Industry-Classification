@@ -7,8 +7,28 @@
 # useful for handling different item types with a single interface
 # from itemadapter import ItemAdapter
 from scrapy.exporters import CsvItemExporter
+import time
 
 class YahooSpidersPipeline:
+    '''
+    Adds Timer
+    '''
+    def process_item(self, item, spider):
+        return item
+    
+    def open_spider(self, spider):
+        self.start = time.time()
+        print('START TIME: %s' %self.start)
+
+    def close_spider(self, spider):
+        self.end = time.time()
+        print('END TIME: %s' %self.end)
+        diff = self.end - self.start 
+        print('TOTAL TIME: %s' %diff)
+    
+
+
+class YahooSpidersPipeline2:
     '''
     Currently not used.Everything is done in spider files
     '''

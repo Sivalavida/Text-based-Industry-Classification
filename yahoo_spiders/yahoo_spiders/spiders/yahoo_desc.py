@@ -14,8 +14,7 @@ class YahooDescSpider(scrapy.Spider):
     name = "yahoo_desc"
 
     snp_ticker_df = pd.read_csv('data_in/snp_ticker_df.csv', index_col=0)
-    tickers = snp_ticker_df.Symbol.head(10)
-    # tickers = ['MMM', 'ABT']
+    tickers = snp_ticker_df.Symbol
 
     # start_url is scrapy naming convention, dont change
     # (dont need to implement start_requests with this)
@@ -31,15 +30,25 @@ class YahooDescSpider(scrapy.Spider):
     @staticmethod
     def get_ticker_from_url(url):
         return url.split('=')[-1]
-
+    
     def parse(self, response):
+        def evaluate(s, response):
+            # to return None if element cant be found
+            try:
+                return eval(s)
+            except:
+                return None
+        
         ticker = self.get_ticker_from_url(response.request.url)
         print(ticker)
         yield {
             'Ticker': ticker,
-            'desc': response.xpath('//*[@id="Col1-0-Profile-Proxy"]/section/section[2]/p/text()').extract(),
-            'Sector': response.xpath('//*[@id="Col1-0-Profile-Proxy"]/section/div[1]/div/div/p[2]/span[2]/text()').extract(),
-            'Industry': response.xpath('//*[@id="Col1-0-Profile-Proxy"]/section/div[1]/div/div/p[2]/span[4]/text()').extract()[0]
+            'desc': evaluate(
+                '''response.xpath('//*[@id="Col1-0-Profile-Proxy"]/section/section[2]/p/text()').extract()''', response),
+            'Sector': evaluate(
+                '''response.xpath('//*[@id="Col1-0-Profile-Proxy"]/section/div[1]/div/div/p[2]/span[2]/text()').extract()''', response),
+            'Industry': evaluate(
+                '''response.xpath('//*[@id="Col1-0-Profile-Proxy"]/section/div[1]/div/div/p[2]/span[4]/text()').extract()[0]''', response)
         }
 
 
