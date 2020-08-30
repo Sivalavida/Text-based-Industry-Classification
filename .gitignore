@@ -3,3 +3,4 @@ data_out/
 yahoo_spiders/data_in/
 yahoo_spiders/data_out/
 yahoo_spiders/yahoo_spiders/spiders/__pycache__/
+chromedriver.exe
