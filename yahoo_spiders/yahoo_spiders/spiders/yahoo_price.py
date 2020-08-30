@@ -1,9 +1,8 @@
 import pandas as pd
 import scrapy
-from scrapy.exporters import CsvItemExporter
 import logging
 import pathlib
-from datetime import date,datetime
+from datetime import datetime
 
 
 class YahooPriceSpider(scrapy.Spider):
@@ -12,18 +11,12 @@ class YahooPriceSpider(scrapy.Spider):
     Dont use this as this cant interact with the webpage
     '''
     name = "yahoo_price"
-    # class HeadlessCsvItemExporter(CsvItemExporter):
-
-    #     def __init__(self, *args, **kwargs):
-    #         kwargs['include_headers_line'] = False
-    #         super(self.HeadlessCsvItemExporter, self).__init__(*args, **kwargs)
-            
+    
     custom_settings = {
         'LOG_LEVEL': logging.WARNING, # Scrapy logs alot of stuff at a lower setting
         'FEEDS': {pathlib.Path('data_out/yahoo_price.csv'): {'format': 'csv'}}, # When writing to this file, the additional scrapes will be appended not overwritten
         'FEED_EXPORT_ENCODING': 'utf-8-sig' # not utf-8 so as to force csv to open in utf-8, if not will have wierd characters
     }
-    
     
     def start_requests(self):
         # Not sure why but start_urls gives problems for this scrape
