@@ -5,9 +5,37 @@
 
 
 # useful for handling different item types with a single interface
-from itemadapter import ItemAdapter
-
+# from itemadapter import ItemAdapter
+from scrapy.exporters import CsvItemExporter
 
 class YahooSpidersPipeline:
+    '''
+    Currently not used.Everything is done in spider files
+    '''
+    def __init__(self):
+        # self.filename = 'pages.csv'
+        pass
+
+    def open_spider(self, spider):
+        self.filename = 'data_out/%s.csv' %spider.name
+        self.csvfile = open(self.filename, 'wb')
+        self.exporter = CsvItemExporter(self.csvfile, include_headers_line=True)
+        self.exporter.start_exporting()
+
+    def close_spider(self, spider):
+        self.exporter.finish_exporting()
+        self.csvfile.close()
+
     def process_item(self, item, spider):
-        return item
+        if spider.name == 'yahoo_price':
+            new_item = {'Ticker' : item['Ticker']}
+            i = 0
+            for price in item['Prices']:
+                new_item[i] = price
+                i += 1
+            self.exporter.export_item(new_item)
+            print(new_item)
+            return new_item
+        else:
+            self.exporter.export_item(item)
+            return item
