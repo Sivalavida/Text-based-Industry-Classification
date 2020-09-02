@@ -9,6 +9,7 @@ class YahooPriceSpider(scrapy.Spider):
     '''
     Script to scrape company Price
     Dont use this as this cant interact with the webpage
+    Time Takes: 230.9s
     '''
     name = "yahoo_price"
     
@@ -21,7 +22,7 @@ class YahooPriceSpider(scrapy.Spider):
     def start_requests(self):
         # Not sure why but start_urls gives problems for this scrape
         snp_ticker_df = pd.read_csv('data_in/snp_ticker_df.csv', index_col=0)
-        tickers = snp_ticker_df.Symbol.head(10)
+        tickers = snp_ticker_df.Symbol
     
         d1 = datetime.strptime('20200102', "%Y%m%d")
         d2 = datetime.strptime('20200401', "%Y%m%d")
@@ -38,7 +39,15 @@ class YahooPriceSpider(scrapy.Spider):
         return url.split('/')[4]
 
     def parse(self, response):
-        ticker = self.get_ticker_from_url(response.request.url)
+        url = response.request.url
+        try:
+            ticker = self.get_ticker_from_url(url)
+        except:
+            # means url form changed to https://finance.yahoo.com/lookup?s=BDX
+            ticker = url.split('=')[-1]
+            print('BAD TICKER: %s' %ticker)
+            item = {'Ticker' : ticker}
+            yield item
         print(ticker)
         item = {'Ticker' : ticker}
         prices = response.xpath('//*[@id="Col1-1-HistoricalDataTable-Proxy"]/section/div[2]/table/tbody/tr/td[5]//text()').extract()

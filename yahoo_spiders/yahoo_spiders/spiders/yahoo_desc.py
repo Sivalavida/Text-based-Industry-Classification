@@ -10,6 +10,7 @@ class YahooDescSpider(scrapy.Spider):
     Note that scrapes are done in parallel so order is not guaranteed
     Scrapy is a single-threaded framework (and does not support multithreading),
     but is asynchronous (parallel requests = multiprocessing)
+    Time Taken: 108.6s
     '''
     name = "yahoo_desc"
 

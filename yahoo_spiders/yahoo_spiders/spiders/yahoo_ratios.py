@@ -10,11 +10,12 @@ class YahooDescSpider(scrapy.Spider):
     Note that scrapes are done in parallel so order is not guaranteed
     Scrapy is a single-threaded framework (and does not support multithreading),
     but is asynchronous (parallel requests = multiprocessing)
+    Time Taken: 102.2
     '''
     name = "yahoo_ratios"
 
     snp_ticker_df = pd.read_csv('data_in/snp_ticker_df.csv', index_col=0)
-    tickers = snp_ticker_df.Symbol.head(10)
+    tickers = snp_ticker_df.Symbol
     # symbols = ['MMM', 'ABT']
 
     # start_url is scrapy naming convention, dont change
@@ -34,7 +35,7 @@ class YahooDescSpider(scrapy.Spider):
 
     def parse(self, response):
         ticker = self.get_ticker_from_url(response.request.url)
-        print(response.request.url)
+        print(ticker)
         yield {
             'Ticker': ticker,
             'mkt_cap' : response.xpath('//*[@id="Col1-0-KeyStatistics-Proxy"]/section/div[3]/div[1]/div[2]/div/div[1]/div[1]/table/tbody/tr[1]/td[3]//text()').extract(),
