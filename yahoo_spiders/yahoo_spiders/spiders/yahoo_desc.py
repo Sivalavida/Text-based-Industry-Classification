@@ -44,7 +44,7 @@ class YahooDescSpider(scrapy.Spider):
         print(ticker)
         yield {
             'Ticker': ticker,
-            'desc': evaluate(
+            'Description': evaluate(
                 '''response.xpath('//*[@id="Col1-0-Profile-Proxy"]/section/section[2]/p/text()').extract()''', response),
             'Sector': evaluate(
                 '''response.xpath('//*[@id="Col1-0-Profile-Proxy"]/section/div[1]/div/div/p[2]/span[2]/text()').extract()''', response),
