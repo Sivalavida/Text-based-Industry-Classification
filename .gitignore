@@ -6,3 +6,4 @@ yahoo_spiders/yahoo_spiders/spiders/__pycache__/
 chromedriver.exe
 .ipynb_checkpoints/
 extras/
+debug.log
