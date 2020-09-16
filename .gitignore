@@ -1,5 +1,9 @@
 data_in/10K intros/
-data_out/
+data_out/price_csv_files/
+data_out/snp_desc_10K.pkl
+data_out/ticker_price_df.csv
+
+
 yahoo_spiders/data_out/
 yahoo_spiders/yahoo_spiders/spiders/__pycache__/
 chromedriver.exe
