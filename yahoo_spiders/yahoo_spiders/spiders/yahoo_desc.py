@@ -14,7 +14,7 @@ class YahooDescSpider(scrapy.Spider):
     '''
     name = "yahoo_desc"
 
-    snp_ticker_df = pd.read_csv('data_in/snp_ticker_df.csv', index_col=0)
+    snp_ticker_df = pd.read_csv('data_in/snp_tickers_df.csv', index_col=0)
     tickers = snp_ticker_df.Symbol
 
     # start_url is scrapy naming convention, dont change
