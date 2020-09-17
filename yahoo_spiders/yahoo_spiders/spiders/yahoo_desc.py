@@ -13,8 +13,10 @@ class YahooDescSpider(scrapy.Spider):
     Time Taken: 108.6s
     '''
     name = "yahoo_desc"
-
-    snp_ticker_df = pd.read_csv('data_in/snp_tickers_df.csv', index_col=0)
+    
+    INDEX = 'russell'
+    
+    snp_ticker_df = pd.read_csv('data_in/%s_tickers_df.csv' %INDEX, index_col=0)
     tickers = snp_ticker_df.Symbol
 
     # start_url is scrapy naming convention, dont change
@@ -24,7 +26,7 @@ class YahooDescSpider(scrapy.Spider):
     
     custom_settings = {
         'LOG_LEVEL': logging.WARNING, # Scrapy logs alot of stuff at a lower setting
-        'FEEDS': {pathlib.Path('data_out/yahoo_desc.csv'): {'format': 'csv'}}, # When writing to this file, the additional scrapes will be appended not overwritten
+        'FEEDS': {pathlib.Path('data_out/%s_desc_yahoo.csv' %INDEX): {'format': 'csv'}}, # When writing to this file, the additional scrapes will be appended not overwritten
         'FEED_EXPORT_ENCODING': 'utf-8-sig' # not utf-8 so as to force csv to open in utf-8, if not will have wierd characters        
     }
 
