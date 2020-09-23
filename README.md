@@ -4,7 +4,8 @@ The goal of this project is to use NLP techniques to classify companies accordin
 
 ## Usage
 
-1. Clone [SEC-EDGAR-text](https://github.com/alions7000/SEC-EDGAR-text) project and modify the **document_group_section_search.json** file to only include Section 1A parts of 10-K filings and run the code (simply delete all other parts of JSON file). Transfer the output into `data_out/10-K/` folder here.
+1. Clone [SEC-EDGAR-text](https://github.com/alions7000/SEC-EDGAR-text) project and modify the **document_group_section_search.json** file to only include Section 1A parts of 10-K filings and run the code (simply delete all other parts of JSON file). By default, this will output the 10K filings of the SnP500 companies. Transfer the output (from the 'output_files_examples/batch_xx/' folder) into `data_out/10-K/` folder here.
+	* If you want to get 10K reports of the companies in the Russell 3000 index, run the code in the Scraper Script.ipynb with header **List of CIKs for relevant tickers**, and copy the output (data_out/scrapping_ticker_ciks.txt) to the companies_list.txt file in the SEC-EDGAR-text project, and then run that project
 
 
 1. Run **Scraper script.ipynb**. This populates `data_out/` folder  with:
@@ -24,4 +25,35 @@ The goal of this project is to use NLP techniques to classify companies accordin
 
 1. Run **LSI Word Embedding.ipynb**. Set `desc_df` parameter (under the *Global Vars* header) according to which index tickers the results are required for.
 
+
+
+## Results
+
+* pass
+
+## Data Description and Sources (in `data_in/` folder or APIs used or websites scraped)
+
+* API for CIK to ticker mapping
+	* https://medium.com/@jan_5421/cik-to-ticker-mapping-bb22194b5cc0
+* cik_ticker.csv
+	* not sure, not used
+* russell_price.csv
+	* price of all tickers in Russell 3000 index from Jan 2015 to May 2020 (from past project)
+* russell_ratio.csv
+	* 6 ratios (mkt_cap, pb_ratio, beta, profit_m, roa, roe) of all Russell 3000 index companies
+	* from past project)
+* Russell3000.pdf
+	* list of all comanies in Russell 3000, updated 31 Mar 2020, however ticker name not provided
+	* from [FTSE Russell](https://www.ftserussell.com/analytics/factsheets/home/constituentsweights)
+* list Russell 3000 tickers
+	* from 3rd party source but claims last updated on 21 Sep 2020
+	* http://www.kibot.com/Historical_Data/Russell_3000_Historical_Intraday_Data.aspx
+* list of STI tickers
+	* https://en.wikipedia.org/wiki/Straits_Times_Index
+* ticker_to_gics.csv
+	* mapping for all tickers in Russell 3000
+	* from prof (also found in past project)
+* GICS classification of SnP stocks 
+	* from bloomberg
+	* from prof
 
