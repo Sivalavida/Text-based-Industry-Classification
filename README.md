@@ -4,11 +4,11 @@ The goal of this project is to use NLP techniques to classify companies accordin
 
 ## Usage
 
-1. Clone [SEC-EDGAR-text](https://github.com/alions7000/SEC-EDGAR-text) project and modify the **document_group_section_search.json** file to only include Section 1A parts of 10-K filings and run the code (simply delete all other parts of JSON file). By default, this will output the 10K filings of the SnP500 companies. Transfer the output (from the 'output_files_examples/batch_xx/' folder) into `data_out/10-K/` folder here.
-	* If you want to get 10K reports of the companies in the Russell 3000 index, run the code in the Scraper Script.ipynb with header **List of CIKs for relevant tickers**, and copy the output (data_out/scrapping_ticker_ciks.txt) to the companies_list.txt file in the SEC-EDGAR-text project, and then run that project
+1. Clone [SEC-EDGAR-text](https://github.com/alions7000/SEC-EDGAR-text) project and modify the **document_group_section_search.json** file to only include Section 1A parts of 10-K filings and run the code (simply delete all other parts of JSON file). By default, this will output the 10K filings of the SnP500 companies. Filter from output (from the 'output_files_examples/batch_xx/' folder) all the filenames ending with `excerpt.txt`) and transfer all these .txt files into `data_out/10-K/SnP` folder here.
+	* If you want to get 10K reports of the companies in the Russell 3000 index, run the code section in the **Data Extraction.ipynb** under header *List of CIKs for relevant tickers*, and copy the output (data_out/scrapping_ticker_ciks.txt) to the companies_list.txt file in the SEC-EDGAR-text project, and then run that project. Transfer filtered output to a new folder (eg  `data_out/10-K/Russell`)
 
 
-1. Run **Scraper script.ipynb**. This populates `data_out/` folder  with:
+1. Run **Data Extraction.ipynb**. This populates `data_out/` folder  with:
 	*  data scraped from [Yahoo Finance](https://sg.finance.yahoo.com/) (Note: `yahoo_spiders/data_in/` folder is also polulated with Ticker symbol data in this step)
 	*  data merging all the .txt files which were copied in the previous step
 	*  clean data from the ticker to gics mapping
@@ -29,7 +29,24 @@ The goal of this project is to use NLP techniques to classify companies accordin
 
 ## Results
 
-* pass
+### 1. Average R2 
+![1_1](data_out/images/1_1.png)
+![1_2](data_out/images/1_2.png)
+![1_3](data_out/images/1_3.png)
+![1_4](data_out/images/1_4.png)
+
+### 2. Inter Industry Variation
+![2_1](data_out/images/2_1.png)
+![2_2](data_out/images/2_2.png)
+![2_3](data_out/images/2_3.png)
+![2_4](data_out/images/2_4.png)
+
+### 3. Similarity Probability with GICS
+![3_1](data_out/images/3_1.png)
+![3_2](data_out/images/3_2.png)
+![3_3](data_out/images/3_3.png)
+![3_4](data_out/images/3_4.png)
+
 
 ## Data Description and Sources (in `data_in/` folder or APIs used or websites scraped)
 
