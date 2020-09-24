@@ -35,17 +35,25 @@ The goal of this project is to use NLP techniques to classify companies accordin
 ![1_3](data_out/images/1_3.png)
 ![1_4](data_out/images/1_4.png)
 
+* For SnP, lower k values seem to perform better
+* No significant difference between K-means and GMM
+* Using yahoo desc seems to give slightly better results (for both snp and russell)
+
 ### 2. Inter Industry Variation
 ![2_1](data_out/images/2_1.png)
 ![2_2](data_out/images/2_2.png)
 ![2_3](data_out/images/2_3.png)
 ![2_4](data_out/images/2_4.png)
 
+* no consulsive results
+
 ### 3. Similarity Probability with GICS
 ![3_1](data_out/images/3_1.png)
 ![3_2](data_out/images/3_2.png)
 ![3_3](data_out/images/3_3.png)
 ![3_4](data_out/images/3_4.png)
+
+* clustering with 10K reports gives closer classification to GICS
 
 
 ## Data Description and Sources (in `data_in/` folder or APIs used or websites scraped)
