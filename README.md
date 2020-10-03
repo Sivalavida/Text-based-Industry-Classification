@@ -4,27 +4,36 @@ The goal of this project is to use NLP techniques to classify companies accordin
 
 ## Usage
 
-1. Clone [SEC-EDGAR-text](https://github.com/alions7000/SEC-EDGAR-text) project and modify the **document_group_section_search.json** file to only include Section 1A parts of 10-K filings and run the code (simply delete all other parts of JSON file). By default, this will output the 10K filings of the SnP500 companies. Filter from output (from the 'output_files_examples/batch_xx/' folder) all the filenames ending with `excerpt.txt`) and transfer all these .txt files into `data_out/10-K/SnP` folder here.
-	* If you want to get 10K reports of the companies in the Russell 3000 index, run the code section in the **Data Extraction.ipynb** under header *List of CIKs for relevant tickers*, and copy the output (data_out/scrapping_ticker_ciks.txt) to the companies_list.txt file in the SEC-EDGAR-text project, and then run that project. Transfer filtered output to a new folder (eg  `data_out/10-K/Russell`)
+1. Extract 10_K reports
+	* Clone [SEC-EDGAR-text](https://github.com/alions7000/SEC-EDGAR-text) project
+	* Modify **document_group_section_search.json** file to only include Section 1A parts of 10-K filings (simply delete all other parts of JSON file)
+	* Run program using:
+	
+		```
+	    python SEC-EDGAR-text
+		```
 
+		* With the default settings (extract reports from 20190930 to 20200929), this outputs 10K filings of SnP500 companies. Filter from output (from 'output_files_examples/batch_xx/' folder) all filenames ending with `excerpt.txt`) and transfer all these .txt files into `data_out/10-K/SnP` folder in this project.
+		* To get 10K reports of companies in Russell 3000 index, run code section in **Data Extraction.ipynb** under header *List of CIKs for relevant tickers*, copy output (data_out/scrapping_ticker_ciks.txt) to companies_list.txt file in SEC-EDGAR-text project, and run it. Transfer filtered output to a new folder (e.g. `data_out/10-K/Russell`)
 
 1. Run **Data Extraction.ipynb**. This populates `data_out/` folder  with:
 	*  data scraped from [Yahoo Finance](https://sg.finance.yahoo.com/) (Note: `yahoo_spiders/data_in/` folder is also polulated with Ticker symbol data in this step)
-	*  data merging all the .txt files which were copied in the previous step
-	*  clean data from the ticker to gics mapping
+	*  data merging all .txt files which were copied in previous step
+	*  clean data from ticker to gics mapping
 
+1. In `yahoo_spiders/` folder, run **yahoo_spiders** with:
+	
+	```
+    scrapy crawl yahoo_desc
+    scrapy crawl yahoo_price
+    scrapy crawl yahoo_ratios
+    ```
 
-1. In the `yahoo_spiders/` folder, run **yahoo_spiders** with:
-
-        scrapy crawl yahoo_desc
-        scrapy crawl yahoo_price
-        scrapy crawl yahoo_ratios
-        
-    This will populate the `yahoo_spiders/data_out/` folder with data scraped from Yahoo Finance as well. Edit the `INDEX` parameter in each of the spiders accordingly to scrape data from the respective index (e.g. snp, russell)
+	* This populates `yahoo_spiders/data_out/` folder with data scraped from Yahoo Finance as well. Edit  `INDEX` parameter each spider accordingly to scrape data from respective index (e.g. snp, russell)
     
+1. Run **LSI Word Embedding.ipynb**
 
-1. Run **LSI Word Embedding.ipynb**. Set `desc_df` parameter (under the *Global Vars* header) according to which index tickers the results are required for.
-
+	* Set `desc_df` parameter (under *Global Vars* header) according to which index tickers results are required for.
 
 
 ## Results
@@ -56,6 +65,8 @@ The goal of this project is to use NLP techniques to classify companies accordin
 * clustering with 10K reports gives closer classification to GICS
 
 
+* Reasoning behind results
+
 ## Data Description and Sources (in `data_in/` folder or APIs used or websites scraped)
 
 * API for CIK to ticker mapping
@@ -75,6 +86,8 @@ The goal of this project is to use NLP techniques to classify companies accordin
 	* http://www.kibot.com/Historical_Data/Russell_3000_Historical_Intraday_Data.aspx
 * list of STI tickers
 	* https://en.wikipedia.org/wiki/Straits_Times_Index
+* list of SnP tickers
+	* http://en.wikipedia.org/wiki/List_of_S%26P_500_companies
 * ticker_to_gics.csv
 	* mapping for all tickers in Russell 3000
 	* from prof (also found in past project)
