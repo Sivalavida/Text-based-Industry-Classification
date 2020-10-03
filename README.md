@@ -29,7 +29,9 @@ The goal of this project is to use NLP techniques to classify companies accordin
     scrapy crawl yahoo_ratios
     ```
 
-	* This populates `yahoo_spiders/data_out/` folder with data scraped from Yahoo Finance as well. Edit  `INDEX` parameter each spider accordingly to scrape data from respective index (e.g. snp, russell)
+	* This populates `yahoo_spiders/data_out/` folder with data scraped from Yahoo Finance as well
+	* If .csv file you are writing to exists, delete before re-running (as Scrapy appends to files instead of overwriting)
+	* Edit  `INDEX` parameter each spider accordingly to scrape data from respective index (e.g. snp, russell)
     
 1. Run **LSI Word Embedding.ipynb**
 
@@ -94,4 +96,5 @@ The goal of this project is to use NLP techniques to classify companies accordin
 * GICS classification of SnP stocks 
 	* from bloomberg
 	* from prof
-
+* Stop Words List (for financial use)
+	* https://sraf.nd.edu/textual-analysis/resources/#StopWords

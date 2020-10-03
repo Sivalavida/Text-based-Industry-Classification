@@ -11,13 +11,14 @@ class YahooDescSpider(scrapy.Spider):
     Scrapy is a single-threaded framework (and does not support multithreading),
     but is asynchronous (parallel requests = multiprocessing)
     Time Taken: 108.6s
+    ** DELETE PREVIOUS CSV FILE BEFORE RUNNING AS SCRAPY APPENDS TO EXISTING FILE INSTEAD OF OVERWRITING **
     '''
     name = "yahoo_desc"
     
     INDEX = 'russell'
     
-    snp_ticker_df = pd.read_csv('data_in/%s_tickers_df.csv' %INDEX, index_col=0)
-    tickers = snp_ticker_df.Symbol
+    ticker_df = pd.read_csv('data_in/%s_tickers_df.csv' %INDEX)
+    tickers = ticker_df.Symbol
 
     # start_url is scrapy naming convention, dont change
     # (dont need to implement start_requests with this)
@@ -33,7 +34,7 @@ class YahooDescSpider(scrapy.Spider):
     @staticmethod
     def get_ticker_from_url(url):
         return url.split('=')[-1]
-    
+        
     def parse(self, response):
         def evaluate(s, response):
             # to return None if element cant be found

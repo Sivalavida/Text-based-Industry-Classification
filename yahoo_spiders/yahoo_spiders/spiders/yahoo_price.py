@@ -21,7 +21,7 @@ class YahooPriceSpider(scrapy.Spider):
     
     def start_requests(self):
         # Not sure why but start_urls gives problems for this scrape
-        snp_ticker_df = pd.read_csv('data_in/snp_tickers_df.csv', index_col=0)
+        snp_ticker_df = pd.read_csv('data_in/snp_tickers_df.csv')
         tickers = snp_ticker_df.Symbol
     
         d1 = datetime.strptime('20200102', "%Y%m%d")
