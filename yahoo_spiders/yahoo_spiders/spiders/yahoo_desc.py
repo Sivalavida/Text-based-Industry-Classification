@@ -18,7 +18,7 @@ class YahooDescSpider(scrapy.Spider):
     INDEX = 'russell'
     
     ticker_df = pd.read_csv('data_in/%s_tickers_df.csv' %INDEX)
-    tickers = ticker_df.Symbol
+    tickers = ticker_df.Ticker
 
     # start_url is scrapy naming convention, dont change
     # (dont need to implement start_requests with this)
