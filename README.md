@@ -33,20 +33,23 @@ The goal of this project is to use NLP techniques to classify companies accordin
 			* get wiki descriptions for relevant companies
 
 
-1. In `yahoo_spiders/` folder, run **yahoo_spiders** with:
-	
-	```
-    scrapy crawl yahoo_desc
-    scrapy crawl yahoo_price
-    scrapy crawl yahoo_ratios
-    ```
+1. Scrape business descriptions from multiple sources using scrapy
 
-	* This populates `yahoo_spiders/data_out/` folder with data scraped from Yahoo Finance as well
+	* `cd` to  `yahoo_spiders/` folder and run **yahoo_spiders** with:
+	
+		```
+	    scrapy crawl yahoo_desc
+	    scrapy crawl yahoo_price
+	    scrapy crawl yahoo_ratios
+	    ```
+
+	* This populates `yahoo_spiders/data_out/` folder with data scraped from multiple sources
 	* If .csv file you are writing to exists, delete before re-running (as Scrapy appends to files instead of overwriting)
 	* Edit  `INDEX` parameter each spider accordingly to scrape data from respective index (e.g. snp, russell)
     
-1. Run **LSI Word Embedding.ipynb**
+1. Run NLP algos on data
 
+	* Run **LSI Word Embedding.ipynb**
 	* Set `desc_df` parameter (under *Global Vars* header) according to which index tickers results are required for.
 
 
@@ -96,6 +99,7 @@ The goal of this project is to use NLP techniques to classify companies accordin
 		* Medium length descriptions
 	* [CSIMarket.com](https://csimarket.com/stocks/amzn-Business-Description.html)
 		* Descriptions used are probably from the 10K report
+		* About 30% tickers do not have business description
 	* [Bloomberg](https://www.bloomberg.com/profile/company/MSFT:US)
 		* Unable to scrape as it has captcha
 * API for CIK to ticker mapping

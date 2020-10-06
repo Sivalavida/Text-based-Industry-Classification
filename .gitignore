@@ -7,6 +7,7 @@ data_out/ticker_price_df.csv
 
 
 scrapy_spiders/data_out/
+scrapy_spiders/yahoo_spiders/__pycache__/
 scrapy_spiders/yahoo_spiders/spiders/__pycache__/
 chromedriver.exe
 .ipynb_checkpoints/
