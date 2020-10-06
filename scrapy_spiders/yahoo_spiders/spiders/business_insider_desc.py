@@ -14,6 +14,7 @@ class BusinessInsiderDescSpider(scrapy.Spider):
     
     INDEX = 'snp'
     NUM_INVALID_TICKERS = 0
+    INVALID_URLS = []
     
     ticker_df = pd.read_csv('data_in/%s_tickers_df.csv' %INDEX)
     tickers = ticker_df.Ticker
@@ -25,7 +26,7 @@ class BusinessInsiderDescSpider(scrapy.Spider):
     
     custom_settings = {
             'LOG_LEVEL': logging.WARNING, # Scrapy logs alot of stuff at a lower setting
-            'FEEDS': {pathlib.Path('data_out/%s_desc2_%s.csv' %(INDEX, name[:-5])): {'format': 'csv'}}, # When writing to this file, the additional scrapes will be appended not overwritten
+            'FEEDS': {pathlib.Path('data_out/%s_desc_%s.csv' %(INDEX, name[:-5])): {'format': 'csv'}}, # When writing to this file, the additional scrapes will be appended not overwritten
             'FEED_EXPORT_ENCODING': 'utf-8-sig' # not utf-8 so as to force csv to open in utf-8, if not will have wierd characters        
         }
     
@@ -47,6 +48,7 @@ class BusinessInsiderDescSpider(scrapy.Spider):
             print('VALID: %s'%ticker)
         else:
             self.NUM_INVALID_TICKERS +=1
+            self.INVALID_URLS.append(url)
             print('INVALID TICKER: %s'%url)
         yield {
             'Ticker': ticker,

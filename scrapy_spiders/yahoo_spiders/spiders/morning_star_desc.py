@@ -15,6 +15,7 @@ class MorningStarDescSpider(scrapy.Spider):
     
     INDEX = 'snp'
     NUM_INVALID_TICKERS = 0
+    INVALID_URLS = []
     
     ticker_df = pd.read_csv('data_in/%s_tickers_df.csv' %INDEX)
     tickers = ticker_df.Ticker.str.replace('-', '.')
@@ -53,6 +54,7 @@ class MorningStarDescSpider(scrapy.Spider):
                 yield scrapy.Request(url=new_url, callback=self.parse)
             else:
                 self.NUM_INVALID_TICKERS +=1
+                self.INVALID_URLS.append(url)
                 print('INVALID TICKER: %s'%url)
                 
         if response.status == 200:

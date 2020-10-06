@@ -14,12 +14,24 @@ The goal of this project is to use NLP techniques to classify companies accordin
 		```
 
 		* With the default settings (extract reports from 20190930 to 20200929), this outputs 10K filings of SnP500 companies. Filter from output (from 'output_files_examples/batch_xx/' folder) all filenames ending with `excerpt.txt`) and transfer all these .txt files into `data_out/10-K/SnP` folder in this project.
-		* To get 10K reports of companies in Russell 3000 index, run code section in **Data Extraction.ipynb** under header *List of CIKs for relevant tickers*, copy output (data_out/scrapping_ticker_ciks.txt) to companies_list.txt file in SEC-EDGAR-text project, and run it. Transfer filtered output to a new folder (e.g. `data_out/10-K/Russell`)
+		* To get 10K reports of companies in Russell 3000 index, run code section in **Data Extraction and Preparation.ipynb** under header *List of CIKs for relevant tickers*, copy output (data_out/scrapping_ticker_ciks.txt) to companies_list.txt file in SEC-EDGAR-text project, and run it. Transfer filtered output to a new folder (e.g. `data_out/10-K/Russell`)
 
-1. Run **Data Extraction.ipynb**. This populates `data_out/` folder  with:
-	*  data scraped from [Yahoo Finance](https://sg.finance.yahoo.com/) (Note: `yahoo_spiders/data_in/` folder is also polulated with Ticker symbol data in this step)
-	*  data merging all .txt files which were copied in previous step
-	*  clean data from ticker to gics mapping
+1. Extract yahoo data and some additional preprocessing
+	* Download chromedriver.exe [here](https://chromedriver.chromium.org/downloads) and put driver in main folder
+	* Run **Data Extraction and Preparation.ipynb** (populates `data_out/` folder). There are a few sections:
+		* Scrape Tickers
+			* scrapes for Snp, Russell, STI
+		* Yahoo Description, Price, Ratios scraping
+			* data scraped from [Yahoo Finance](https://sg.finance.yahoo.com/) (Note: `yahoo_spiders/data_in/` folder is also polulated with Ticker symbol data in this section)
+		*  10K report merging
+			* merge all 10K .txt files which were copied in previous step
+		*  Clean GICS classification
+			* clean ticker to gics mapping
+		* List of CIKs for relevant tickers
+			* gets CIKs for tickers which need a 10K description in previous step
+		* Scrape Wikipedia data
+			* get wiki descriptions for relevant companies
+
 
 1. In `yahoo_spiders/` folder, run **yahoo_spiders** with:
 	

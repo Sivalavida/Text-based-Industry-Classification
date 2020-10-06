@@ -23,6 +23,8 @@ class YahooSpidersPipeline:
     def close_spider(self, spider):
         if hasattr(spider, 'NUM_INVALID_TICKERS'):
             print('NUM_INVALID_TICKERS: %s'%spider.NUM_INVALID_TICKERS)
+        if hasattr(spider, 'INVALID_URLS'):
+            [print(url) for url in spider.INVALID_URLS]
         self.end = time.time()
         print('END TIME: %s' %self.end)
         diff = self.end - self.start 

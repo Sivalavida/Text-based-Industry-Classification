@@ -15,6 +15,7 @@ class BloombergDescSpider(scrapy.Spider):
     
     INDEX = 'snp'
     NUM_INVALID_TICKERS = 0
+    INVALID_URLS = []
     
     ticker_df = pd.read_csv('data_in/%s_tickers_df.csv' %INDEX).head()
     tickers = ticker_df.Ticker

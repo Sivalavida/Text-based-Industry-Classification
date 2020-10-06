@@ -4,7 +4,7 @@ import logging
 import pathlib
 
 
-class ReutersDescSpider(scrapy.Spider):
+class ReutersIndiaDescSpider(scrapy.Spider):
     '''
     Script to scrape company description
     Time Taken: 108.6s
@@ -12,18 +12,18 @@ class ReutersDescSpider(scrapy.Spider):
     - Need to consider multiple exchanges for morning star scraping
     - checked invalid entries
     '''
-    name = "reuters_desc"
+    name = "reuters_india_desc"
     
     INDEX = 'snp'
     NUM_INVALID_TICKERS = 0
     INVALID_URLS = []
     
-    ticker_df = pd.read_csv('data_in/%s_tickers_df.csv' %INDEX)
+    ticker_df = pd.read_csv('data_in/%s_tickers_df.csv' %INDEX).head()
     tickers = ticker_df.Ticker.str.replace('-', '')
 
     # start_url is scrapy naming convention, dont change
     # (dont need to implement start_requests with this)
-    start_urls = ['https://www.reuters.com/companies/'+ticker
+    start_urls = ['https://in.reuters.com/finance/stocks/company-profile/'+ticker
                       for ticker in tickers]
     
     custom_settings = {
@@ -39,22 +39,21 @@ class ReutersDescSpider(scrapy.Spider):
     def parse(self, response):
         url = response.request.url
         ticker = self.get_ticker_from_url(url)
-        desc = response.xpath('//*[@id="__next"]/div/div[4]/div[1]/div/div/div/div[4]/div[1]/p/text()').extract() or \
-                response.xpath('//*[@id="__next"]/div/div[4]/div[1]/div/div/div/div[3]/div[1]/p/text()').extract()
+        desc = response.xpath('//*[@id="__next"]/div/div[4]/div[1]/div/div/div/div[4]/div[1]/p/text()').extract()
         if desc:
             print('VALID: %s'%ticker)
             yield {
                 'Ticker': ticker,
                 'Description': desc
             }
-        elif '.' not in ticker:
-            # try NASDAQ
-            new_url = 'https://www.reuters.com/companies/'+ticker+'.OQ'
-            yield scrapy.Request(url=new_url, callback=self.parse)
-        elif url[-3:] == '.OQ':
-            # try NEW YORK STOCK EXCHANGE
-            new_url = 'https://www.reuters.com/companies/'+ticker[:-3]+'.N'
-            yield scrapy.Request(url=new_url, callback=self.parse)
+        # elif '.' not in ticker:
+        #     # try NASDAQ
+        #     new_url = 'https://www.reuters.com/companies/'+ticker+'.OQ'
+        #     yield scrapy.Request(url=new_url, callback=self.parse)
+        # elif url[-3:] == '.OQ':
+        #     # try NEW YORK STOCK EXCHANGE
+        #     new_url = 'https://www.reuters.com/companies/'+ticker[:-3]+'.N'
+        #     yield scrapy.Request(url=new_url, callback=self.parse)
         else:
             self.NUM_INVALID_TICKERS +=1
             self.INVALID_URLS.append(url)
