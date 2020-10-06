@@ -71,6 +71,21 @@ The goal of this project is to use NLP techniques to classify companies accordin
 
 ## Data Description and Sources (in `data_in/` folder or APIs used or websites scraped)
 
+* Company Description Data (MSFT is used as example in all the links)
+	* [Yahoo](https://sg.finance.yahoo.com/quote/MSFT/profile?p=MSFT)
+	* [Business Insider](https://markets.businessinsider.com/stocks/msft-stock)
+	* [CNN](https://money.cnn.com/quote/profile/profile.html?symb=MSFT)
+		* Same description as Business Insider
+	* [Morning Star](https://www.morningstar.com/stocks/xnas/msft/quote)
+	* [Reuters](https://www.reuters.com/companies/MSFT.O)
+	* [Investing.com](https://www.investing.com/equities/microsoft-corp-company-profile)
+		* Same description as Reuters
+	* [Reuters India](https://in.reuters.com/finance/stocks/company-profile/MSFT.DF)
+		* Medium length descriptions
+	* [CSIMarket.com](https://csimarket.com/stocks/amzn-Business-Description.html)
+		* Descriptions used are probably from the 10K report
+	* [Bloomberg](https://www.bloomberg.com/profile/company/MSFT:US)
+		* Unable to scrape as it has captcha
 * API for CIK to ticker mapping
 	* https://medium.com/@jan_5421/cik-to-ticker-mapping-bb22194b5cc0
 * cik_ticker.csv

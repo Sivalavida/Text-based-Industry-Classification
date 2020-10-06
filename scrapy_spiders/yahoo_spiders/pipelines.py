@@ -21,6 +21,8 @@ class YahooSpidersPipeline:
         print('START TIME: %s' %self.start)
 
     def close_spider(self, spider):
+        if hasattr(spider, 'NUM_INVALID_TICKERS'):
+            print('NUM_INVALID_TICKERS: %s'%spider.NUM_INVALID_TICKERS)
         self.end = time.time()
         print('END TIME: %s' %self.end)
         diff = self.end - self.start 
