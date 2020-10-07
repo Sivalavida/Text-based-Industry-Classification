@@ -56,9 +56,14 @@ class MorningStarDescSpider(scrapy.Spider):
                 self.NUM_INVALID_TICKERS +=1
                 self.INVALID_URLS.append(url)
                 print('INVALID TICKER: %s'%url)
+                yield {
+                    'Ticker': ticker,
+                    'Description': None
+                }
                 
         if response.status == 200:
             desc = response.xpath('//*[@id="__layout"]/div/div[3]/main/div[2]/div/div/div[1]/div[1]/div/div[1]/p/text()').extract()
+            desc = [s.strip() for s in desc]
             print('DONE: %s_%s'%(ticker, exchange))
             yield {
                 'Ticker': ticker,

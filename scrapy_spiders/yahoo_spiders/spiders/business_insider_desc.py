@@ -44,6 +44,7 @@ class BusinessInsiderDescSpider(scrapy.Spider):
         url = response.request.url
         ticker = self.get_ticker_from_url(url)
         desc = response.xpath('/html/body/main/div/div[4]/div[2]/div[6]/div/text()').extract()
+        desc = [s.strip() for s in desc]
         if desc:
             print('VALID: %s'%ticker)
         else:

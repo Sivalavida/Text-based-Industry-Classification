@@ -26,7 +26,7 @@ class ReutersDescSpider(scrapy.Spider):
     
     custom_settings = {
         'LOG_LEVEL': logging.WARNING, # Scrapy logs alot of stuff at a lower setting
-        'FEEDS': {pathlib.Path('data_out/%s_desc2_%s.csv' %(INDEX, name[:-5])): {'format': 'csv'}}, # When writing to this file, the additional scrapes will be appended not overwritten
+        'FEEDS': {pathlib.Path('data_out/%s_desc_%s.csv' %(INDEX, name[:-5])): {'format': 'csv'}}, # When writing to this file, the additional scrapes will be appended not overwritten
         'FEED_EXPORT_ENCODING': 'utf-8-sig' # not utf-8 so as to force csv to open in utf-8, if not will have wierd characters        
     }
 
@@ -44,6 +44,7 @@ class ReutersDescSpider(scrapy.Spider):
         ticker, market = self.get_ticker_and_market_from_url(url)
         desc = response.xpath('//*[@id="__next"]/div/div[4]/div[1]/div/div/div/div[4]/div[1]/p/text()').extract() or \
                 response.xpath('//*[@id="__next"]/div/div[4]/div[1]/div/div/div/div[3]/div[1]/p/text()').extract()
+        desc = [s.strip() for s in desc]
         if desc:
             print('VALID: %s (%s)'%(ticker, market))
             yield {
