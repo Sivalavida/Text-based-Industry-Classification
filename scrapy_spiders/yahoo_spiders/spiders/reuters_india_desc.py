@@ -13,7 +13,7 @@ class ReutersIndiaDescSpider(scrapy.Spider):
     '''
     name = "reuters_india_desc"
     
-    INDEX = 'snp'
+    INDEX = 'russell'
     NUM_INVALID_TICKERS = 0
     INVALID_URLS = []
     

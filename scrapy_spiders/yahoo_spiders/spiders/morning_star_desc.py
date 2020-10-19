@@ -13,7 +13,7 @@ class MorningStarDescSpider(scrapy.Spider):
     '''
     name = "morning_star_desc"
     
-    INDEX = 'snp'
+    INDEX = 'russell'
     NUM_INVALID_TICKERS = 0
     INVALID_URLS = []
     

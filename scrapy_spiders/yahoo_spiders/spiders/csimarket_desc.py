@@ -14,7 +14,7 @@ class CsimarketDescSpider(scrapy.Spider):
     '''
     name = "csimarket_desc"
     
-    INDEX = 'snp'
+    INDEX = 'russell'
     NUM_INVALID_TICKERS = 0
     INVALID_URLS = []
     

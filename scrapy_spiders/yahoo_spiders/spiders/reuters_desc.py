@@ -12,7 +12,7 @@ class ReutersDescSpider(scrapy.Spider):
     '''
     name = "reuters_desc"
     
-    INDEX = 'snp'
+    INDEX = 'russell'
     NUM_INVALID_TICKERS = 0
     INVALID_URLS = []
     

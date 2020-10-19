@@ -12,7 +12,7 @@ class BusinessInsiderDescSpider(scrapy.Spider):
     '''
     name = "business_insider_desc"
     
-    INDEX = 'snp'
+    INDEX = 'russell'
     NUM_INVALID_TICKERS = 0
     INVALID_URLS = []
     
