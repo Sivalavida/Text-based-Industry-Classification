@@ -15,7 +15,7 @@ class YahooDescSpider(scrapy.Spider):
     '''
     name = "yahoo_desc"
     
-    INDEX = 'snp'
+    INDEX = 'russell'
     NUM_INVALID_TICKERS = 0
     INVALID_URLS = []
     
@@ -38,24 +38,28 @@ class YahooDescSpider(scrapy.Spider):
         return url.split('=')[-1]
         
     def parse(self, response):
-        def evaluate(s, response):
-            # to return None if element cant be found
-            try:
-                return eval(s)
-            except:
-                return None
+        url = response.request.url
+        ticker = self.get_ticker_from_url(url)
+        desc = response.xpath(' //*[@id="Col1-0-Profile-Proxy"]/section/section[2]/p/text()').extract()
+        sec = response.xpath('//*[@id="Col1-0-Profile-Proxy"]/section/div[1]/div/div/p[2]/span[2]/text()').extract()
+        ind = response.xpath('//*[@id="Col1-0-Profile-Proxy"]/section/div[1]/div/div/p[2]/span[4]/text()').extract()
+        if not sec:
+            self.NUM_INVALID_TICKERS +=1
+            self.INVALID_URLS.append(url)
+            print('SECTOR AND DESC MISSING: %s'%url)
+        elif not desc:
+            self.NUM_INVALID_TICKERS +=1
+            self.INVALID_URLS.append(url)
+            print('DESC MISSING: %s'%url)
+        else:
+            print('VALID: %s'%ticker)
         
-        ticker = self.get_ticker_from_url(response.request.url)
-        print(ticker)
         yield {
             'Ticker': ticker,
-            'Description': evaluate(
-                '''response.xpath('//*[@id="Col1-0-Profile-Proxy"]/section/section[2]/p/text()').extract()''', response),
-            'Sector': evaluate(
-                '''response.xpath('//*[@id="Col1-0-Profile-Proxy"]/section/div[1]/div/div/p[2]/span[2]/text()').extract()''', response),
-            'Industry': evaluate(
-                '''response.xpath('//*[@id="Col1-0-Profile-Proxy"]/section/div[1]/div/div/p[2]/span[4]/text()').extract()[0]''', response)
-        }
+            'Description': desc,
+            'Sector': sec,
+            'Industry': ind
+            }
 
 
 

@@ -35,15 +35,9 @@ class BusinessInsiderDescSpider(scrapy.Spider):
         return url.split('/')[-1][:-6].upper()
         
     def parse(self, response):
-        def evaluate(s, response):
-            # to return None if element cant be found
-            try:
-                return eval(s)
-            except:
-                return None
         url = response.request.url
         ticker = self.get_ticker_from_url(url)
-        desc = response.xpath('/html/body/main/div/div[4]/div[2]/div[6]/div/text()').extract()
+        desc = response.xpath('/html/body/main/div/div[4]/div[2]/div[6]/div/text()').extract() # list of descriptions
         desc = [s.strip() for s in desc]
         if desc:
             print('VALID: %s'%ticker)
@@ -54,6 +48,6 @@ class BusinessInsiderDescSpider(scrapy.Spider):
         yield {
             'Ticker': ticker,
             'Description': desc
-        }
+            }
 
 

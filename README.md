@@ -46,6 +46,7 @@ The goal of this project is to use NLP techniques to classify companies accordin
 	* This populates `yahoo_spiders/data_out/` folder with data scraped from multiple sources
 	* If .csv file you are writing to exists, delete before re-running (as Scrapy appends to files instead of overwriting)
 	* Edit  `INDEX` parameter each spider accordingly to scrape data from respective index (e.g. snp, russell)
+	* Note that xpaths of descriptions and other scraping information change frequently (due to change in format of website of the scraping site), so do ensure that you are retrieving the right information, else edit scrapy script accordingly (usually just need to change xpath)
     
 1. Run NLP algos on data
 

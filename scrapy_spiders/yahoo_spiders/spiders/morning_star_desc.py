@@ -62,12 +62,19 @@ class MorningStarDescSpider(scrapy.Spider):
                 }
                 
         if response.status == 200:
-            desc = response.xpath('//*[@id="__layout"]/div/div[3]/main/div[2]/div/div/div[1]/div[1]/div/div[1]/p/text()').extract()
+            desc = response.xpath('//*[@id="__layout"]/div/div[2]/div[3]/main/div[2]/div/div/div[1]/div[1]/div/div[1]/p/text()').extract()
             desc = [s.strip() for s in desc]
-            print('DONE: %s_%s'%(ticker, exchange))
-            yield {
-                'Ticker': ticker,
-                'Description': desc
-            }
+            if desc == ['—']:
+                print('TICKER WITHOUT DESC: %s (%s)'%(url, exchange))
+                yield {
+                    'Ticker': ticker,
+                    'Description': None
+                    }
+            else:
+                print('DONE: %s (%s)'%(ticker, exchange))
+                yield {
+                    'Ticker': ticker,
+                    'Description': desc
+                }
 
 

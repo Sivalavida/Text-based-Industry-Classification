@@ -4,6 +4,7 @@ data_out/russell_price_csv_files/
 data_out/snp_desc_10K.pkl
 data_out/russell_desc_10K.pkl
 data_out/ticker_price_df.csv
+data_out/russell_desc_wiki_df.csv
 
 
 scrapy_spiders/data_out/
