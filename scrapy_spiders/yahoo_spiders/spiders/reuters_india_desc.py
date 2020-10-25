@@ -33,24 +33,38 @@ class ReutersIndiaDescSpider(scrapy.Spider):
 
     @staticmethod
     def get_ticker_and_market_from_url(url):
-        s = url.split('/')[-1]
-        if '.' in s:
-            ticker, market = s.split('.')
-        else:
+        if 'lookup?' in url: #invalid search
+            s = url.split('=')[-1]
             ticker, market = s, None
+        else:
+            s = url.split('/')[-1]
+            if '.' in s:
+                ticker, market = s.split('.')
+            else:
+                ticker, market = s, None
         return ticker, market
         
     def parse(self, response):
         url = response.request.url
         ticker, market = self.get_ticker_and_market_from_url(url)
         desc = response.xpath('//*[@id="companyNews"]/div/div[2]/p/text()').extract()
-        if desc:
+        if not desc:
+            desc = response.xpath('//*[@id="companyNews"]/div/div[2]/text()').extract()
+            if len(desc)>0 and desc[0].strip() == 'NA':
+                desc = []
+        if (ticker == 'WTTR' and market == 'N'): # not sure why but this symbol gets repeated
+            pass
+        elif desc: 
             print('VALID: %s (%s)'%(ticker, market))
+            if market and len(market)>3:
+                print('----------------------------------------------------------------------------------')
+                print(url)
             yield {
                 'Ticker': ticker,
                 'Description': desc # note that desc is a list but it is concatenated when put in csv
             }
         else:
+            desc = response.xpath('//*[@id="companyNews"]/div/div[2]/text()').extract()
             self.NUM_INVALID_TICKERS +=1
             self.INVALID_URLS.append(url)
             print('INVALID TICKER: %s'%url)

@@ -6,7 +6,10 @@ data_out/russell_desc_10K.pkl
 data_out/ticker_price_df.csv
 data_out/russell_desc_wiki_df.csv
 data_out/all_clusters/
+data_out/results/
 
+data_out/russell_desc_yahoo_df2.csv
+data_out/russell_tickers_df2.csv
 
 scrapy_spiders/data_out/
 scrapy_spiders/yahoo_spiders/__pycache__/

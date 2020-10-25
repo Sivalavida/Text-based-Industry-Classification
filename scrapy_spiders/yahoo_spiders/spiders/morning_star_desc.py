@@ -11,7 +11,7 @@ class MorningStarDescSpider(scrapy.Spider):
     ** DELETE PREVIOUS CSV FILE BEFORE RUNNING AS SCRAPY APPENDS TO EXISTING FILE INSTEAD OF OVERWRITING **
     Need to consider multiple exchanges for morning star scraping
     '''
-    name = "morning_star_desc"
+    name = "morningstar_desc"
     
     INDEX = 'russell'
     NUM_INVALID_TICKERS = 0

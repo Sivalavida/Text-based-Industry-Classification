@@ -13,7 +13,9 @@ The goal of this project is to use NLP techniques to classify companies accordin
 	    python SEC-EDGAR-text
 		```
 
-		* With the default settings (extract reports from 20190930 to 20200929), this outputs 10K filings of SnP500 companies. Filter from output (from 'output_files_examples/batch_xx/' folder) all filenames ending with `excerpt.txt`) and transfer all these .txt files into `data_out/10-K/SnP` folder in this project.
+		* With the default settings (extract reports from 20190930 to 20200929), this outputs 10K filings of SnP500 companies. Filter from output (from 'output_files_examples/batch_xx/' folder) all filenames ending with `excerpt.txt`) and transfer all these .txt files into `data_out/10-K/SnP` folder in this project
+			* Data is scraped from a 1 year timeframe so that we can get data from as many companies as possible, later only the latest filing for each company is filtered and used
+			* Note that the SnP500 list used by the project can be outdated, so follow the next step to extract data for a specific set of tickers
 		* To get 10K reports of companies in Russell 3000 index, run code section in **Data Extraction and Preparation.ipynb** under header *List of CIKs for relevant tickers*, copy output (data_out/scrapping_ticker_ciks.txt) to companies_list.txt file in SEC-EDGAR-text project, and run it. Transfer filtered output to a new folder (e.g. `data_out/10-K/Russell`)
 
 1. Extract yahoo data and some additional preprocessing
