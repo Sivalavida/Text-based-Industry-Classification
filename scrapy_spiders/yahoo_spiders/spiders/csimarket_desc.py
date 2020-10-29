@@ -43,7 +43,8 @@ class CsimarketDescSpider(scrapy.Spider):
         url = response.request.url
         ticker = response.meta['ticker']# self.get_ticker_from_url(url)
         desc = response.xpath('//*[@id="glavno_polje"]/table[3]/tr/td[1]/div/p/text() | //*[@id="glavno_polje"]/table[3]/tr/td[1]/div/text()').extract()
-        desc = (' '.join(desc)).strip()
+        desc = [s.strip().replace('\n', ' ') for s in desc]
+        
         if desc:
             print('VALID: %s'%ticker)
             yield {

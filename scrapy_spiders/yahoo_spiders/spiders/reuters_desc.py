@@ -12,7 +12,7 @@ class ReutersDescSpider(scrapy.Spider):
     '''
     name = "reuters_desc"
     
-    INDEX = 'russell'
+    INDEX = 'snp'
     NUM_INVALID_TICKERS = 0
     INVALID_URLS = []
     
@@ -44,7 +44,7 @@ class ReutersDescSpider(scrapy.Spider):
         ticker, market = self.get_ticker_and_market_from_url(url)
         desc = response.xpath('//*[@id="__next"]/div/div[4]/div[1]/div/div/div/div[4]/div[1]/p/text()').extract() or \
                 response.xpath('//*[@id="__next"]/div/div[4]/div[1]/div/div/div/div[3]/div[1]/p/text()').extract()
-        desc = [s.strip() for s in desc]
+        desc = [s.strip().replace('\n', ' ') for s in desc]
         if desc:
             print('VALID: %s (%s)'%(ticker, market))
             yield {

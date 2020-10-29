@@ -13,7 +13,7 @@ class MorningStarDescSpider(scrapy.Spider):
     '''
     name = "morningstar_desc"
     
-    INDEX = 'russell'
+    INDEX = 'snp'
     NUM_INVALID_TICKERS = 0
     INVALID_URLS = []
     
@@ -25,7 +25,10 @@ class MorningStarDescSpider(scrapy.Spider):
     # xnas - NASDAQ, xnys - NEW YORK STOCK EXCHANGE, bats - BATS GLOBAL MARKETS
     start_urls = ['https://www.morningstar.com/stocks/xnas/'+ticker+'/quote'
                       for ticker in tickers]
+    
+    # This variable ensures 404 pages are handled
     handle_httpstatus_list = [404]
+    
     custom_settings = {
         'LOG_LEVEL': logging.WARNING, # Scrapy logs alot of stuff at a lower setting
         'FEEDS': {pathlib.Path('data_out/%s_desc_%s.csv' %(INDEX, name[:-5])): {'format': 'csv'}}, # When writing to this file, the additional scrapes will be appended not overwritten
@@ -63,7 +66,7 @@ class MorningStarDescSpider(scrapy.Spider):
                 
         if response.status == 200:
             desc = response.xpath('//*[@id="__layout"]/div/div[2]/div[3]/main/div[2]/div/div/div[1]/div[1]/div/div[1]/p/text()').extract()
-            desc = [s.strip() for s in desc]
+            desc = [s.strip().replace('\n', ' ') for s in desc]
             if desc == ['—']:
                 print('TICKER WITHOUT DESC: %s (%s)'%(url, exchange))
                 yield {

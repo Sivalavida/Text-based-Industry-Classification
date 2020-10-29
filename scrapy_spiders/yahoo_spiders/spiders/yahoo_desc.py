@@ -40,7 +40,8 @@ class YahooDescSpider(scrapy.Spider):
     def parse(self, response):
         url = response.request.url
         ticker = self.get_ticker_from_url(url)
-        desc = response.xpath(' //*[@id="Col1-0-Profile-Proxy"]/section/section[2]/p/text()').extract()
+        desc = response.xpath('//*[@id="Col1-0-Profile-Proxy"]/section/section[2]/p/text()').extract()
+        desc = [s.replace('\n', ' ') for s in desc]
         sec = response.xpath('//*[@id="Col1-0-Profile-Proxy"]/section/div[1]/div/div/p[2]/span[2]/text()').extract()
         ind = response.xpath('//*[@id="Col1-0-Profile-Proxy"]/section/div[1]/div/div/p[2]/span[4]/text()').extract()
         if not sec:

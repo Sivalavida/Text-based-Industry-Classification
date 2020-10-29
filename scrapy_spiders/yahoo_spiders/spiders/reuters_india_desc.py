@@ -11,9 +11,9 @@ class ReutersIndiaDescSpider(scrapy.Spider):
     ** DELETE PREVIOUS CSV FILE BEFORE RUNNING AS SCRAPY APPENDS TO EXISTING FILE INSTEAD OF OVERWRITING **
     - website autochanges url according to exchange
     '''
-    name = "reuters_india_desc"
+    name = "reutersindia_desc"
     
-    INDEX = 'russell'
+    INDEX = 'snp'
     NUM_INVALID_TICKERS = 0
     INVALID_URLS = []
     
@@ -52,6 +52,8 @@ class ReutersIndiaDescSpider(scrapy.Spider):
             desc = response.xpath('//*[@id="companyNews"]/div/div[2]/text()').extract()
             if len(desc)>0 and desc[0].strip() == 'NA':
                 desc = []
+        desc = [s.replace('\n', ' ') for s in desc]
+        
         if (ticker == 'WTTR' and market == 'N'): # not sure why but this symbol gets repeated
             pass
         elif desc: 

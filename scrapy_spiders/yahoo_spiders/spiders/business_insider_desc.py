@@ -9,10 +9,11 @@ class BusinessInsiderDescSpider(scrapy.Spider):
     Script to scrape company description
     Time Taken: 108.6s
     ** DELETE PREVIOUS CSV FILE BEFORE RUNNING AS SCRAPY APPENDS TO EXISTING FILE INSTEAD OF OVERWRITING **
+    - 1 desc missing for russell ( maybe d)
     '''
-    name = "business_insider_desc"
+    name = "businessinsider_desc"
     
-    INDEX = 'russell'
+    INDEX = 'snp'
     NUM_INVALID_TICKERS = 0
     INVALID_URLS = []
     
@@ -23,6 +24,8 @@ class BusinessInsiderDescSpider(scrapy.Spider):
     # (dont need to implement start_requests with this)
     start_urls = ['https://markets.businessinsider.com/stocks/'+ticker+'-stock'
                       for ticker in tickers]
+    # This variable ensures 404 pages are handled
+    handle_httpstatus_list = [404]
     
     custom_settings = {
             'LOG_LEVEL': logging.WARNING, # Scrapy logs alot of stuff at a lower setting
@@ -32,16 +35,20 @@ class BusinessInsiderDescSpider(scrapy.Spider):
     
     @staticmethod
     def get_ticker_from_url(url):
-        return url.split('/')[-1][:-6].upper()
+        ticker = url.split('/')[-1][:-6].upper()
+        if ticker == 'BBX_MINERALS': # One exception
+            ticker = 'BBX'
+        return ticker
         
     def parse(self, response):
         url = response.request.url
         ticker = self.get_ticker_from_url(url)
         desc = response.xpath('/html/body/main/div/div[4]/div[2]/div[6]/div/text()').extract() # list of descriptions
-        desc = [s.strip() for s in desc]
+        desc = [s.strip().replace('\n', ' ') for s in desc]
         if desc:
             print('VALID: %s'%ticker)
         else:
+            # Usually ticker exists but no desc available
             self.NUM_INVALID_TICKERS +=1
             self.INVALID_URLS.append(url)
             print('INVALID TICKER: %s'%url)
