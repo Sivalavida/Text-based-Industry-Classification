@@ -2,7 +2,8 @@ data_in/10K intros/
 data_out/snp_price_csv_files/
 data_out/russell_price_csv_files/
 data_out/snp_desc_10K.pkl
-data_out/russell_desc_10K.pkl
+data_out/russell_desc_10K2020.pkl
+data_out/russell_desc_10K2015.pkl
 data_out/ticker_price_df.csv
 data_out/russell_desc_wiki_df.csv
 data_out/all_clusters/

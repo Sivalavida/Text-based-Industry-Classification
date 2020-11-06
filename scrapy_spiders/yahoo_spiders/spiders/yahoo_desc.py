@@ -59,7 +59,7 @@ class YahooDescSpider(scrapy.Spider):
             'Ticker': ticker,
             'Description': desc,
             'Sector': sec,
-            'Industry': ind
+            'SubIndustry': ind
             }
 
 
