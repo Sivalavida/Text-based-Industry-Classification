@@ -101,34 +101,83 @@ This section shows how to extract and clean data which was used for this project
 
 ## Results
 
-### 1. Average R2 
-![1_1](data_out/images/1_1.png)
-![1_2](data_out/images/1_2.png)
-![1_3](data_out/images/1_3.png)
-![1_4](data_out/images/1_4.png)
+	|![]()|
+	|:--:|
+	| *Figure X* 
 
-* For SnP, lower k values seem to perform better
-* No significant difference between K-means and GMM
-* Using yahoo desc seems to give slightly better results (for both snp and russell)
+### Main Results
 
-### 2. Inter Industry Variation
-![2_1](data_out/images/2_1.png)
-![2_2](data_out/images/2_2.png)
-![2_3](data_out/images/2_3.png)
-![2_4](data_out/images/2_4.png)
+1. Text-based Industry Classification performs slightly better than the standard GICS Industry classification.
+	* Training on Russell 3000 stock business descriptions, the best model performs 0.8% better than the GICS R2 score (0.305)
+	* Even though it may not be significant, we know that it at least is perform as good as GICS classification, since the model is able to cosistently able to perform in a +-1% range of the GICS R2 score for topic sizes from 100-250
+	* Also, Ratio Variation (RV) scores are better in the ratios profit margin, ROA and ROE, but slightly worse in pb_ratio and beta. But all percentage differences are in a band of 10%, and we can conclude that Text-based Industry Classification is able to perform as well as GICS
 
-* no consulsive results
+	|![](data_out/images//r2_best-r2-scores-for-different-data-sources-and-number-of-topics-[russell]_0.png)|
+	|:--:|
+	| *Figure 1* |
 
-### 3. Similarity Probability with GICS
-![3_1](data_out/images/3_1.png)
-![3_2](data_out/images/3_2.png)
-![3_3](data_out/images/3_3.png)
-![3_4](data_out/images/3_4.png)
+	|![](data_out/images//rv_percentage-difference-of-ratio-variation-scores-of-each-ratio-relative-to-gics-score-[russell]_0.png)|
+	|:--:|
+	| *Figure 1* |
 
-* clustering with 10K reports gives closer classification to GICS
+1. Text-based Industry Classification performs better for lower market-cap stocks compared to high market-cap stocks relative to GICS Industry classification. 
+	* When filtering classificaiton Russell 3000 stocks to 2 sections: SnP500 stocks (approximately top 500 capitalisation stocks) and Russell2 stocks (which we difine as the bottom 500 market capitalisation stocks in Russell 3000), and evluating we get the following results (we dont train on sub-universe index individually to reduce bias)
+	* For SnP500, best model performs 1.5% better than the GICS R2 score (0.449)
+	* For Russell2, best model performs 4.0% better than the GICS R2 score (0.131)
+	* In terms of RV score, the percentage change relative to GICS score for all ratios are in a margin of 5% within each other for both Snp and Russell2
+	* Given that the R2 is a stronger metric of industry classification, we conclude that text-based industry classification performs better for lower market-cap stocks compared to high market-cap stocks relative to GICS Industry classification
+	* This may be due to the classification of smaller companies not being updated frequently
 
+	|![](data_out/images//r2_best-r2-scores-for-different-data-sources-and-number-of-topics-[snp]_0.png)|
+	|:--:|
+	| *Figure 1* |
 
-* Reasoning behind results
+	|![](data_out/images//rv_percentage-difference-of-ratio-variation-scores-of-each-ratio-relative-to-gics-score-[snp]_0.png)|
+	|:--:|
+	| *Figure X* |
+
+	|![](data_out/images//r2_best-r2-scores-for-different-data-sources-and-number-of-topics-[russell2]_0.png)|
+	|:--:|
+	| *Figure 1* |
+
+	|![](data_out/images//rv_percentage-difference-of-ratio-variation-scores-of-each-ratio-relative-to-gics-score-[russell2]_0.png)|
+	|:--:|
+	| *Figure X* |
+
+1. Text-based **Sector** Classification is able to classify these sectors better:
+	* This table show the Similarity probability of each sector in GICS to the classification model with the best R2 score output
+	* We see that
+
+### Minor Results
+
+1. Data Sources which are most informative about classification based on the order of R2 metrics are:
+	1. 10-K report Business Description
+	1. Reuters India
+	1. Yahoo (worst wiki)
+	1. 2015 and 2020 no difference
+
+1. Clustering Algo
+	* Agglomerative Clustering seems to constantly perform well, followed by K-means and GMM
+	* K-Medioids consistantly does not perform well
+
+1. Topic modelling
+	* LSI and PCA are the techniques which produce better performance compared to NMF and LDA
+	* Interestingly, LDA gives more similar to GICS
+	* Usually num_topics in range [50,200] gives best results
+
+	|![](data_out/images//r2_best-r2-scores-for-different-topic-model-and-clustering-method-combinations-[russell-10k2020-results]_0.png)|
+	|:--:| 
+	| *Figure 1* |
+
+	|![](data_out/images//sp_similarity-probability-of-clustering-with-different-topic-models-to-gics-classification-[russell]_0.png)|
+	|:--:|
+	| *Figure 1* |
+
+1. Pre-processing
+	* Normalising (samplewise L2 scaling) or using the raw DTM after topic modelling dosent cause a significat difference in R2 scores
+		* Best model for Russell was 0.29% and 0.80% better than GICS respectively
+	* Standardizing is gives poor results
+		* Best model for Russell was 0.21% worse than GICS
 
 ## Data used and Sources (in `data_in/` folder or APIs used or websites scraped)
 
