@@ -1,5 +1,5 @@
 # Text-based Industry Classification
-The goal of this project is to use NLP techniques to classify companies according to their descriptions and compare it with the current industry standard, Global Industry Classification Standard (GICS). The SnP500 and Russell 3000 Indexes are specifically studied in this project. Several Sources of description, topic modelling techniques, clustering techniques are used as follows:
+The goal of this project is to use NLP techniques to classify companies according to their descriptions and compare it with the current industry standard, Global Industry Classification Standard (GICS). The SnP500 and Russell 3000 Indexes are specifically studied in this project. Several Sources of description, topic modelling techniques, clustering techniques are used as listed:
 
 * Descriptions used:
 	1. EDGAR 10-K reports
@@ -24,14 +24,23 @@ The goal of this project is to use NLP techniques to classify companies accordin
 ## Usage
 
 ### Viewing/Running Text-based Industry Classification
+	
+1. Install requirements for project using:
 
-* Refer to **LSI Word Embedding.ipynb**
-* Set `desc_df` parameter (under *Global Vars* header) according to which index tickers results are required for
-* Some data is not available on github as files are too big (eg. 10K reports for Russell) but the method to retrive them is detailed below
+	```
+	pip install -r requirements.txt
+	```
+
+2. Refer to **LSI Word Embedding.ipynb**
+	* Adjust variables under *Global Vars* section to preference
+	* Some data is not available on github as files are too big (eg. 10K reports and other business descriptions) but the method to retrive them is detailed below
 
 ### Data Extraction and Cleaning
 
-This section shows how to extract and clean data which was used for this project. What is probably required is the 10-K data.
+This section shows how to extract and clean data which was used for this project.
+* 1-4 : Data to extract which is not included
+* 5,6 : Not necessary
+* 7 : Data is included 
 
 1. Extract Index Tickers
 	* Refer to **Data Extraction and Cleaning.ipynb** under header *Scrape Index Tickers*
@@ -64,7 +73,7 @@ This section shows how to extract and clean data which was used for this project
 		* Reuters
 		* Reuters India
 		* Bloomberg
-	* Ensure that you have saved the required index tickers into  `yahoo_spiders/data_in/` folder by following step 1
+	* Ensure that you have saved the required index tickers into  `scrapy_spiders/data_in/` folder by following step 1
 	* `cd` to  `scrapy_spiders/` folder and run spider for required data source with:
 	
 		```
@@ -72,12 +81,22 @@ This section shows how to extract and clean data which was used for this project
 	    ```
 	 where XXX is either yahoo, businessinsider, morningstar, reuters, reutersindia or csimarket
 
-	* This populates `yahoo_spiders/data_out/` folder with a .csv file with the scraped descriptions
+	* This populates `scrapy_spiders/data_out/` folder with a .csv file of scraped descriptions
 	* If .csv file you are writing to exists, delete before re-running (as Scrapy appends to files instead of overwriting if the file to write to exists)
 	* Edit  `INDEX` parameter each spider accordingly to scrape data from respective index (e.g. snp, russell)
 	* Note that xpaths of descriptions and other scraping information change frequently (due to change in format of website of the scraping site), so do ensure that you are retrieving the right information, else edit scrapy script accordingly (usually just need to change xpath)
+	* Also, although spiders are saved in directory `scrapy_spiders/yahoo_spiders/` the yahoo_spiders does not mean only yahoo_spiders are in the directory (directory name is left unchanged as it was initialted as such and is difficult to rename now)
 
-1. Scrape Yahoo Prices and Ratios
+1. Extract Wikipedia Data
+	* Refer to **Data Extraction and Cleaning.ipynb** under header *Scrape Wikipedia description*
+
+1. Extract [Yahoo Finance](https://sg.finance.yahoo.com/) Descriptions (Method 2)
+	* Refer to **Data Extraction and Cleaning.ipynb** under header *Scrape Yahoo Description, Price, Ratios*
+	* This script mainly uses selenium and thus takes a long time, so it is better to use the scrapy framework
+	* Download chromedriver.exe [here](https://chromedriver.chromium.org/downloads) and put driver in main folder
+	* Extracts Business Descriptions from Yahoo Finance using Selenium Framework and yfinance module
+
+1. Scrape Yahoo Prices and Market Ratios
 	* Similar to above procedure, but with the commands:
 
 		```
@@ -85,14 +104,7 @@ This section shows how to extract and clean data which was used for this project
 	    scrapy crawl yahoo_ratios
 	    ```
 
-1. Extract Wikipedia Data
-	* Refer to **Data Extraction and Cleaning.ipynb** under header *Scrape Wikipedia description*
-
-1. Extract [Yahoo Finance](https://sg.finance.yahoo.com/) Data (Method 2)
-	* This script takes a long time, so it is better to use the scrapy framework
-	* Download chromedriver.exe [here](https://chromedriver.chromium.org/downloads) and put driver in main folder
-	* Refer to **Data Extraction and Cleaning.ipynb** under header *Scrape Yahoo Description, Price, Ratios*
-	* Extracts Besiness Descriptions, Price data and market ratios from Yahoo Finance using Selenium Framework and yfinance module
+	* This method is better than scrapy method as we are able to adjust start_date and end_date to longer periods (thanks to seleniums interactivity)
 
 1. Other Data Extraction and Cleaning processes (Refer to **Data Extraction and Cleaning.ipynb** for details)
 	* Scrape GICS industry code to name map
@@ -101,16 +113,12 @@ This section shows how to extract and clean data which was used for this project
 
 ## Results
 
-	|![]()|
-	|:--:|
-	| *Figure X* 
-
 ### Main Results
 
-1. Text-based Industry Classification performs slightly better than the standard GICS Industry classification.
-	* Training on Russell 3000 stock business descriptions, the best model performs 0.8% better than the GICS R2 score (0.305)
-	* Even though it may not be significant, we know that it at least is perform as good as GICS classification, since the model is able to cosistently able to perform in a +-1% range of the GICS R2 score for topic sizes from 100-250
-	* Also, Ratio Variation (RV) scores are better in the ratios profit margin, ROA and ROE, but slightly worse in pb_ratio and beta. But all percentage differences are in a band of 10%, and we can conclude that Text-based Industry Classification is able to perform as well as GICS
+1. Text-based Industry Classification has comparable performance to standard GICS Industry classification
+	* Training on Russell 3000 stock business descriptions, best model performs 0.8% better than GICS R2 score (0.305) (Fig 1)
+	* Even though it may not be significant, we know that it at least is perform as good as GICS classification, since model is able to cosistently able to perform in a +-1% range of the GICS R2 score for topic sizes from 100-250 (Fig 1)
+	* Also, Ratio Variation (RV) scores are better in the ratios profit margin, ROA and ROE, but slightly worse in pb_ratio and beta. But all percentage differences are in a band of 10%, and we can conclude that Text-based Industry Classification is able to perform as well as GICS (Fig 2)
 
 	|![](data_out/images//r2_best-r2-scores-for-different-data-sources-and-number-of-topics-[russell]_0.png)|
 	|:--:|
@@ -118,60 +126,78 @@ This section shows how to extract and clean data which was used for this project
 
 	|![](data_out/images//rv_percentage-difference-of-ratio-variation-scores-of-each-ratio-relative-to-gics-score-[russell]_0.png)|
 	|:--:|
-	| *Figure 1* |
+	| *Figure 2* |
 
-1. Text-based Industry Classification performs better for lower market-cap stocks compared to high market-cap stocks relative to GICS Industry classification. 
-	* When filtering classificaiton Russell 3000 stocks to 2 sections: SnP500 stocks (approximately top 500 capitalisation stocks) and Russell2 stocks (which we difine as the bottom 500 market capitalisation stocks in Russell 3000), and evluating we get the following results (we dont train on sub-universe index individually to reduce bias)
-	* For SnP500, best model performs 1.5% better than the GICS R2 score (0.449)
-	* For Russell2, best model performs 4.0% better than the GICS R2 score (0.131)
-	* In terms of RV score, the percentage change relative to GICS score for all ratios are in a margin of 5% within each other for both Snp and Russell2
+1. Text-based Industry Classification performs better for lower market-cap stocks compared to high market-cap stocks relative to GICS Industry classification
+	* When filtering classification of Russell 3000 stocks to 2 sections: SnP500 stocks (approximately top 500 capitalisation stocks) and Russell2 stocks (which we difine as the bottom 500 market capitalisation stocks in Russell 3000), and evluating we get the following results
+		* Note: we dont train on sub-universe index individually to reduce bias
+	* For SnP500, best model performs 1.5% better than the GICS R2 score (0.449) (Fig 3)
+	* For Russell2, best model performs 4.0% better than the GICS R2 score (0.131) (Fig 5)
+	* In terms of RV score, the percentage change relative to GICS score for all ratios are in a margin of 5% within each other for both Snp and Russell2 (Fig 4&6)
 	* Given that the R2 is a stronger metric of industry classification, we conclude that text-based industry classification performs better for lower market-cap stocks compared to high market-cap stocks relative to GICS Industry classification
-	* This may be due to the classification of smaller companies not being updated frequently
+	* This may be due to classification of smaller companies not being updated frequently
 
 	|![](data_out/images//r2_best-r2-scores-for-different-data-sources-and-number-of-topics-[snp]_0.png)|
 	|:--:|
-	| *Figure 1* |
+	| *Figure 3* |
 
 	|![](data_out/images//rv_percentage-difference-of-ratio-variation-scores-of-each-ratio-relative-to-gics-score-[snp]_0.png)|
 	|:--:|
-	| *Figure X* |
+	| *Figure 4* |
 
 	|![](data_out/images//r2_best-r2-scores-for-different-data-sources-and-number-of-topics-[russell2]_0.png)|
 	|:--:|
-	| *Figure 1* |
+	| *Figure 5* |
 
 	|![](data_out/images//rv_percentage-difference-of-ratio-variation-scores-of-each-ratio-relative-to-gics-score-[russell2]_0.png)|
 	|:--:|
-	| *Figure X* |
+	| *Figure 6* |
 
-1. Text-based **Sector** Classification is able to classify these sectors better:
-	* This table show the Similarity probability of each sector in GICS to the classification model with the best R2 score output
-	* We see that
+1. Similarity of Text-based Industry Classification to GICS
+	* Generally the similarity to GICS is about 50% (Fig 9)
+	* Fig 7 shows the Similarity probability of each GICS industry to the classification model with best R2 score output trained on the Russell 3000 tickers
+	* We see that Utilities generally are able to be classified well
+
+	|![](data_out/images/sp_by-industry.png)|
+	|:--:|
+	| *Figure 7* |
 
 ### Minor Results
 
-1. Data Sources which are most informative about classification based on the order of R2 metrics are:
+1. Data Sources which are most informative about classification based on the order of R2 metrics are (Fig 8):
 	1. 10-K report Business Description
 	1. Reuters India
 	1. Yahoo (worst wiki)
-	1. 2015 and 2020 no difference
+	* Its noteworthy that 10-K reports from 2015 and 2020 dont show a significant different in R2 scores
 
-1. Clustering Algo
-	* Agglomerative Clustering seems to constantly perform well, followed by K-means and GMM
-	* K-Medioids consistantly does not perform well
+	|![](data_out/images//r2_best-r2-scores-for-different-data-sources-and-number-of-topics-[russell]_2.png)|
+	|:--:|
+	| *Figure 8 : Run again...maybe cos unnormlalised?* |
+
+1. For more general classifications, Text-based Industry Classification performs worse than the GICS standard
+	* For Russell 3000 with sector classification, best model performs 2.22% worse than GICS Sector R2 (0.266) (Fig 9)
+
+	|![](data_out/images//r2_best-r2-scores-for-different-data-sources-and-number-of-topics-[russell]_1.png)|
+	|:--:|
+	| *Figure 9: Russell Classification by Sector* |
 
 1. Topic modelling
-	* LSI and PCA are the techniques which produce better performance compared to NMF and LDA
-	* Interestingly, LDA gives more similar to GICS
-	* Usually num_topics in range [50,200] gives best results
-
+	* LSI and PCA are the techniques which produce better R2 performance compared to NMF and LDA (Fig 10)
+	* Usually num_topics in range [50,200] gives best R2 results (Fig 10)
+	* Interestingly, LDA classifications are more similar to GICS, although it performs the worse in terms in R2 (Fig 11)
+	
 	|![](data_out/images//r2_best-r2-scores-for-different-topic-model-and-clustering-method-combinations-[russell-10k2020-results]_0.png)|
 	|:--:| 
-	| *Figure 1* |
+	| *Figure 10* |
 
 	|![](data_out/images//sp_similarity-probability-of-clustering-with-different-topic-models-to-gics-classification-[russell]_0.png)|
 	|:--:|
-	| *Figure 1* |
+	| *Figure 11* |
+
+1. Clustering Algo
+	* Agglomerative Clustering seems to constantly perform well, followed by K-means and GMM (Fig 10)
+	* K-Medioids consistantly does not perform well (Fig 10)
+
 
 1. Pre-processing
 	* Normalising (samplewise L2 scaling) or using the raw DTM after topic modelling dosent cause a significat difference in R2 scores

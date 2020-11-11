@@ -1,22 +1,31 @@
+# Data
+
 data_in/10K intros/
-data_out/snp_price_csv_files/
-data_out/russell_price_csv_files/
 data_out/snp_desc_10K.pkl
 data_out/russell_desc_10K2020.pkl
 data_out/russell_desc_10K2015.pkl
-data_out/ticker_price_df.csv
 data_out/russell_desc_wiki_df.csv
+
+data_out/snp_price_csv_files/
+data_out/russell_price_csv_files/
+
+
+## Results
 data_out/all_clusters/
 data_out/results/
-data_out/images/
+data_out/images/*
+!data_out/images/r2_best-r2-scores-for-different-data-sources-and-number-of-topics-[russell]_0.png
 
-data_out/russell_desc_yahoo_df2.csv
-data_out/russell_tickers_df2.csv
+# Spiders 
 
 scrapy_spiders/data_out/
 scrapy_spiders/yahoo_spiders/__pycache__/
 scrapy_spiders/yahoo_spiders/spiders/__pycache__/
+
+# Others
+
 chromedriver.exe
 .ipynb_checkpoints/
 extras/
 debug.log
+GICSenv/
