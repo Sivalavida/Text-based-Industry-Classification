@@ -132,7 +132,7 @@ The goal of this project is to use NLP techniques to classify companies accordin
 ### Data Extraction and Cleaning
 
 This section shows how to extract and clean data used for this project
-* 2-4 : Data to extract which is not included
+* 2,3,4 : Data to extract which is not included
 * 5,6 : Not compulsory
 * 1,7 : Data is included 
 

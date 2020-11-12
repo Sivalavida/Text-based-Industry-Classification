@@ -1,4 +1,5 @@
 aiohttp==3.7.2
+argon2-cffi==20.1.0
 async-generator==1.10
 async-timeout==3.0.1
 atomicwrites==1.4.0
@@ -8,6 +9,7 @@ beautifulsoup4==4.9.3
 bleach==3.2.1
 bs4==0.0.1
 certifi==2020.11.8
+cffi==1.14.3
 chardet==3.0.4
 click==7.1.2
 colorama==0.4.4
@@ -27,6 +29,7 @@ iniconfig==1.1.1
 ipykernel==5.3.4
 ipython==7.16.1
 ipython-genutils==0.2.0
+ipywidgets==7.5.1
 jedi==0.17.2
 Jinja2==2.11.2
 joblib==0.17.0
@@ -46,6 +49,7 @@ nbconvert==6.0.7
 nbformat==5.0.8
 nest-asyncio==1.4.2
 nltk==3.5
+notebook==6.1.5
 numexpr==2.7.1
 numpy==1.19.3
 packaging==20.4
@@ -56,9 +60,11 @@ pickleshare==0.7.5
 Pillow==8.0.1
 playsound==1.2.2
 pluggy==0.13.1
+prometheus-client==0.8.0
 prompt-toolkit==3.0.8
 py==1.9.0
 pyclustering==0.10.0.1
+pycparser==2.20
 Pygments==2.7.2
 pyLDAvis==2.1.2
 pyparsing==2.4.7
@@ -67,6 +73,7 @@ pytest==6.1.2
 python-dateutil==2.8.1
 pytz==2020.4
 pywin32==228
+pywinpty==0.5.7
 pyzmq==19.0.2
 regex==2020.10.28
 requests==2.24.0
@@ -74,11 +81,13 @@ scikit-learn==0.23.2
 scipy==1.5.4
 seaborn==0.11.0
 selenium==3.141.0
+Send2Trash==1.5.0
 six==1.15.0
 sklearn==0.0
 smart-open==3.0.0
 soupsieve==2.0.1
 tabula==1.0.5
+terminado==0.9.1
 testpath==0.4.4
 threadpoolctl==2.1.0
 toml==0.10.2
@@ -89,6 +98,7 @@ typing-extensions==3.7.4.3
 urllib3==1.25.11
 wcwidth==0.2.5
 webencodings==0.5.1
+widgetsnbextension==3.5.1
 wikipedia==1.4.0
 yarl==1.6.2
 yfinance==0.1.55
